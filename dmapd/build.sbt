@@ -14,6 +14,9 @@ libraryDependencies += "com.typesafe.slick" %% "slick-codegen" % "3.2.1"
 libraryDependencies += "com.typesafe.slick" %% "slick-hikaricp" % "3.2.1"
 libraryDependencies += "com.h2database" % "h2" % "1.4.196"
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.34"
+libraryDependencies += "de.undercouch" % "bson4jackson" % "2.9.0"
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.0"
+libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.0"
 
 
 // Adds additional packages into Twirl
