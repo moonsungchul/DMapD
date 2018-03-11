@@ -21,15 +21,13 @@ class TestMapd extends PlaySpec with GuiceOneAppPerTest with Injecting {
       Logger.info("Test JDBC ...")  
       val mapd = new MapdEngine(host, port, dbname, user, passwd)
       mapd.open()
-      val sql = "select * from flights_2008_7M limit 100"
+      val sql = "select * from flights_2008_7M limit 10"
       val result = mapd.select(sql)
       val json = mapd.toJson(result)
       Logger.info("ret json :" + json)
       
       val re = mapd.toBResult(json)
       Logger.info("return : " + re.toString())
-      
-      
      
       val bson = mapd.toBson(mapd.select(sql))
       Logger.info("ret bson : " + bson.toByteArray())
@@ -39,8 +37,46 @@ class TestMapd extends PlaySpec with GuiceOneAppPerTest with Injecting {
       //Logger.info(">>>>> list : " + list)
       val obj = mapd.toBResult(bson.toByteArray())
       Logger.info(">>>> result : " + obj.toString())
-      
       mapd.close()
+    }
+    
+    "Test PoolMapd Engine" in {
+      val db = PoolMapdEngine.getMapdEngine(host, port, dbname, user, passwd)  
+      if(db.isEmpty) {
+        Logger.info("engine을 얻어올수 없습니다. ")
+      } else {
+        val sql = "select * from flights_2008_7M limit 10"
+        val json = db.get.toJson(db.get.select(sql))
+        Logger.info("json : " + json)
+        
+        val sql2 = "select * from flights_2008_7M limit 10"
+        val json2 = db.get.toJson(db.get.select(sql2))
+        Logger.info("json2 : " + json2) 
+        
+        
+      }
+      val db2 = PoolMapdEngine.getMapdEngine(host, port, dbname, user, passwd)  
+      if(db2.isEmpty) {
+        Logger.info("engine을 얻어올수 없습니다. ")
+      } else {
+        val sql = "select * from flights_2008_7M limit 10"
+        val json = db2.get.toJson(db2.get.select(sql))
+        Logger.info("json : " + json)
+        
+        val sql2 = "select * from flights_2008_7M limit 10"
+        val json2 = db2.get.toJson(db2.get.select(sql2))
+        Logger.info("json2 : " + json2) 
+        
+        
+      }
+      
+      
+     PoolMapdEngine.printPoolInfo()
+      
+      
+      
+     PoolMapdEngine.releasePool()
+      
     }
 
   }

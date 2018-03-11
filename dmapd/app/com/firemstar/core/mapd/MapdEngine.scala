@@ -23,7 +23,6 @@ class MapdEngine(host : String, port:String,
     dbname:String, user:String, password:String) {
   
   val JDBC_DRIVER = "com.mapd.jdbc.MapDDriver"
-  //val DB_URL = "jdbc:mapd:localhost:9091:mapd";
   var conn : Connection = null
   var stmt : Statement = null
   var use : Boolean = false
