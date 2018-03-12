@@ -52,12 +52,11 @@ class TestMapd extends PlaySpec with GuiceOneAppPerTest with Injecting {
         val sql2 = "select * from flights_2008_7M limit 10"
         val json2 = db.get.toJson(db.get.select(sql2))
         Logger.info("json2 : " + json2) 
-        
-        
       }
+      
       val db2 = PoolMapdEngine.getMapdEngine(host, port, dbname, user, passwd)  
       if(db2.isEmpty) {
-        Logger.info("engine을 얻어올수 없습니다. ")
+        Logger.info("engine을 얻어올 수 없습니다. ")
       } else {
         val sql = "select * from flights_2008_7M limit 10"
         val json = db2.get.toJson(db2.get.select(sql))
@@ -66,17 +65,37 @@ class TestMapd extends PlaySpec with GuiceOneAppPerTest with Injecting {
         val sql2 = "select * from flights_2008_7M limit 10"
         val json2 = db2.get.toJson(db2.get.select(sql2))
         Logger.info("json2 : " + json2) 
-        
-        
       }
       
-      
+     PoolMapdEngine.unUsed(db2.get)
+     
+      val db3 = PoolMapdEngine.getMapdEngine(host, port, dbname, user, passwd)  
+      if(db3.isEmpty) {
+        Logger.info("engine을 얻어올 수 없습니다. ")
+      } else {
+        val sql = "select * from flights_2008_7M limit 10"
+        val json = db3.get.toJson(db3.get.select(sql))
+        Logger.info("json : " + json)
+        
+        val sql2 = "select * from flights_2008_7M limit 10"
+        val json2 = db3.get.toJson(db3.get.select(sql2))
+        Logger.info("json2 : " + json2) 
+      }
      PoolMapdEngine.printPoolInfo()
-      
-      
-      
      PoolMapdEngine.releasePool()
-      
+    }
+    
+    "Test create table " in {
+      Logger.info("Test JDBC ...")  
+      val db = PoolMapdEngine.getMapdEngine(host, port, dbname, user, passwd)  
+      if(db.isEmpty) {
+        Logger.info("engine을 얻어올수 없습니다. ")
+      } else {
+        db.get.createUser("moonstar", "wooag01")
+        //db.get.createDatabase("mtest", "moonstar")
+      }
+     PoolMapdEngine.printPoolInfo()
+     PoolMapdEngine.releasePool()
     }
 
   }

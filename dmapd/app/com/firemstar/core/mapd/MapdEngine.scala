@@ -48,6 +48,21 @@ class MapdEngine(host : String, port:String,
     if(stmt != null) stmt.close()
   }
   
+  def createUser(userid : String, passwd : String) : Int = {
+     val sql = "create user %s (password = '%s') ".format( userid, passwd )
+     Logger.info(">>>>>> sql : " + sql)
+     Logger.info(">>>>>> stmt : " + stmt)
+     stmt.execute(sql)
+     return 1
+  }
+  
+  def createDatabase(dbname : String, userid : String) : Int = {
+    val sql = "create database %s (owner = '%s')".format( dbname, userid )
+    Logger.info(">>>>>> sql : " + sql)
+    stmt.execute(sql)
+    return 1
+  }
+  
   def select(sql : String) : BResult = {
     val rs = stmt.executeQuery(sql)
     val rows = new ArrayList[ArrayList[String]]

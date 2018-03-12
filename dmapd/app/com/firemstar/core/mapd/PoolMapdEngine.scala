@@ -50,6 +50,10 @@ object PoolMapdEngine {
    engine.use = false 
   }
   
+  def used(engine : MapdEngine) = {
+    engine.use = true
+  }
+  
   
   def releasePool() = {
     this.pool.forEach{ (k, v) =>
