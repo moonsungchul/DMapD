@@ -16,7 +16,19 @@ class TestMapd extends PlaySpec with GuiceOneAppPerTest with Injecting {
   val port = "9091"
   
   "MapdEngine Test" should {
+   
+    /*
+    "Test create table2" in {
+      val mapd = new MapdEngine(host, port, dbname, user, passwd )
+      mapd.open()
+      //val sql = "select * from flights_2008_7M limit 10"
+      //mapd.createUser("moonstar", "wooag01")
+      mapd.createDatabase("TestTB1", "moonstar")
+      mapd.close()
+      
+    } */
 
+    /*
     "Test jdbc" in {
       Logger.info("Test JDBC ...")  
       val mapd = new MapdEngine(host, port, dbname, user, passwd)
@@ -38,8 +50,9 @@ class TestMapd extends PlaySpec with GuiceOneAppPerTest with Injecting {
       val obj = mapd.toBResult(bson.toByteArray())
       Logger.info(">>>> result : " + obj.toString())
       mapd.close()
-    }
-    
+    }*/
+   
+    /*
     "Test PoolMapd Engine" in {
       val db = PoolMapdEngine.getMapdEngine(host, port, dbname, user, passwd)  
       if(db.isEmpty) {
@@ -83,20 +96,20 @@ class TestMapd extends PlaySpec with GuiceOneAppPerTest with Injecting {
       }
      PoolMapdEngine.printPoolInfo()
      PoolMapdEngine.releasePool()
-    }
-    
+    } */
+   
     "Test create table " in {
       Logger.info("Test JDBC ...")  
       val db = PoolMapdEngine.getMapdEngine(host, port, dbname, user, passwd)  
       if(db.isEmpty) {
         Logger.info("engine을 얻어올수 없습니다. ")
       } else {
-        db.get.createUser("moonstar", "wooag01")
-        //db.get.createDatabase("mtest", "moonstar")
+        db.get.createUser("moonstar2", "wooag01")
+        db.get.createDatabase("mtest", "moonstar")
       }
      PoolMapdEngine.printPoolInfo()
      PoolMapdEngine.releasePool()
-    }
+    } 
 
   }
   

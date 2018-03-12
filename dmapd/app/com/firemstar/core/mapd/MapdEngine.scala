@@ -50,16 +50,23 @@ class MapdEngine(host : String, port:String,
   
   def createUser(userid : String, passwd : String) : Int = {
      val sql = "create user %s (password = '%s') ".format( userid, passwd )
-     Logger.info(">>>>>> sql : " + sql)
-     Logger.info(">>>>>> stmt : " + stmt)
-     stmt.execute(sql)
+     try {
+       stmt.execute(sql)
+     } catch {
+       case e: SQLException => Logger.error(e.getMessage)
+       case e1: Exception => Logger.error(e1.getMessage)
+     }
      return 1
   }
   
   def createDatabase(dbname : String, userid : String) : Int = {
     val sql = "create database %s (owner = '%s')".format( dbname, userid )
-    Logger.info(">>>>>> sql : " + sql)
-    stmt.execute(sql)
+    try {
+      stmt.execute(sql)
+    } catch {
+      case e: SQLException => Logger.error(e.getMessage)
+      case e1: Exception => Logger.error(e1.getMessage)
+    }
     return 1
   }
   
@@ -132,12 +139,22 @@ class MapdEngine(host : String, port:String,
   }
   
   
-  def update(sql : String) : Boolean  = {
-    return stmt.execute(sql)
+  def update(sql : String) = {
+    try {
+      stmt.execute(sql)
+    } catch {
+      case e: SQLException => Logger.error(e.getMessage)
+      case e1: Exception => Logger.error(e1.getMessage)
+    }
   }
   
-  def delete(sql : String) : Boolean = {
-    return stmt.execute(sql) 
+  def delete(sql : String) = {
+    try {
+      stmt.execute(sql)
+    } catch {
+      case e: SQLException => Logger.error(e.getMessage)
+      case e1: Exception => Logger.error(e1.getMessage)
+    }
   }
   
   
